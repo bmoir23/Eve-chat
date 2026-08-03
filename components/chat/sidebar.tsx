@@ -8,6 +8,7 @@ import {
   Trash2Icon,
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import {
   AuthDisplayLoggedIn,
@@ -24,6 +25,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { ChatListItem, SetupStatus, Viewer } from "@/lib/chat/types";
 import { cn } from "@/lib/utils";
+import { WORKSPACE_NAV_LINKS } from "@/lib/workspaces";
 
 const activeRowClass = "bg-muted/50 text-foreground hover:bg-muted/60";
 const inactiveRowClass = "text-muted-foreground hover:bg-muted/50 hover:text-foreground";
@@ -62,6 +64,7 @@ export function ChatSidebar({
   const authDisabled = !setupStatus.appReady;
   const newSessionActive = activeChatId === null;
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const sentinel = sentinelRef.current;
@@ -131,6 +134,29 @@ export function ChatSidebar({
           <PlusIcon className="size-4" />
           New session
         </button>
+        <Link
+          className={cn(
+            "flex h-8 items-center gap-2 rounded-md px-2 text-left text-sm transition-colors",
+            pathname === "/workspaces" ? activeRowClass : inactiveRowClass,
+          )}
+          href="/workspaces"
+          onClick={() => onNavigate?.(activeChatId)}
+        >
+          Workspaces
+        </Link>
+        {WORKSPACE_NAV_LINKS.map((workspaceLink) => (
+          <Link
+            className={cn(
+              "flex h-8 items-center rounded-md px-4 text-left text-xs transition-colors",
+              pathname.startsWith(workspaceLink.href) ? activeRowClass : inactiveRowClass,
+            )}
+            href={workspaceLink.href}
+            key={workspaceLink.slug}
+            onClick={() => onNavigate?.(activeChatId)}
+          >
+            {workspaceLink.title}
+          </Link>
+        ))}
       </div>
 
       <div className="flex-1 overflow-y-auto px-2 py-2">

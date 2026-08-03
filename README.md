@@ -140,6 +140,18 @@ pnpm dev
 
 This template intentionally does not include file uploads, Vercel Blob, guest mode, NextAuth/Auth.js, or AI Elements.
 
+## Workspace skeleton routes
+
+This repository now includes scaffold routes for a multi-workspace product surface:
+
+- `/workspaces` (hub + rollout plan)
+- `/workspaces/authentication` (Clerk/Auth0 decision track)
+- `/workspaces/productivity/*` (dashboard, task board, status updates, agent resources)
+- `/workspaces/engineering/*` (dashboard, dev environments, Cloudflare workers, workers AI, n8n, firecrawl connectors)
+- `/workspaces/content-research/*` (dashboard, crawl/parse/search, content library, ranking/scheduling, calendar/publisher, market research)
+
+These pages are intentionally scaffold-only so the route map and implementation order are established before deeper feature work.
+
 ## Agent Code
 
 Edit the agent in `agent/agent.ts`. Its behavior is defined in `agent/instructions.md`, and tools live in `agent/tools/`.
